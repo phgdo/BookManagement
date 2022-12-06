@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "674624045461",
+    "project_id": "bookmamagement",
+    "storage_bucket": "bookmamagement.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674624045461:android:42ef14dfd3a6f02155b69c",
+        "android_client_info": {
+          "package_name": "com.example.bookmamagement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674624045461-esjhfat9vpmp7b98m674nnktvkml9pjq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9j7KZXAgpajXIJMwzeI8yhtseTzKaOog"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674624045461-esjhfat9vpmp7b98m674nnktvkml9pjq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
