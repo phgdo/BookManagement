@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,62 +9,83 @@
         android:id="@+id/tvDangKy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="74dp"
         android:text="Đăng ký"
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="60dp" />
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTaiKhoan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nhập tài khoản:"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="92dp" />
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="42dp"
+        android:text="Nhập Email:"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/tvDangKy"
+        app:layout_constraintTop_toBottomOf="@+id/tvDangKy" />
 
     <EditText
-        android:id="@+id/edtTaiKhoan"
+        android:id="@+id/edtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
-        tools:layout_editor_absoluteX="59dp"
-        tools:layout_editor_absoluteY="132dp" />
+        app:layout_constraintStart_toStartOf="@+id/tvTaiKhoan"
+        app:layout_constraintTop_toBottomOf="@+id/tvTaiKhoan" />
 
     <TextView
         android:id="@+id/tvMatKhau"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
         android:text="Mật khảu:"
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="215dp" />
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/edtEmail"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
     <EditText
         android:id="@+id/edtMatKhau"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
-        tools:layout_editor_absoluteX="67dp"
-        tools:layout_editor_absoluteY="262dp" />
+        app:layout_constraintStart_toStartOf="@+id/tvMatKhau"
+        app:layout_constraintTop_toBottomOf="@+id/tvMatKhau" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tvNhapLaiMatKhau"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="75dp"
-        tools:layout_editor_absoluteY="353dp" />
+        android:layout_marginTop="28dp"
+        android:text="Nhập lại mật khẩu:"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/edtMatKhau"
+        app:layout_constraintTop_toBottomOf="@+id/edtMatKhau" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/edtNhapLaiMatKhau"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        tools:layout_editor_absoluteX="67dp"
-        tools:layout_editor_absoluteY="412dp" />
+        android:text=""
+        app:layout_constraintStart_toStartOf="@+id/tvNhapLaiMatKhau"
+        app:layout_constraintTop_toBottomOf="@+id/tvNhapLaiMatKhau" />
+
+    <Button
+        android:id="@+id/btnDangKy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:text="Đăng ký"
+        app:layout_constraintEnd_toEndOf="@+id/edtNhapLaiMatKhau"
+        app:layout_constraintStart_toStartOf="@+id/edtNhapLaiMatKhau"
+        app:layout_constraintTop_toBottomOf="@+id/edtNhapLaiMatKhau" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtDangNhap" />
 
     <EditText
-        android:id="@+id/edtTaiKhoan"
+        android:id="@+id/edtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -45,8 +45,8 @@
         android:layout_marginTop="28dp"
         android:text="Mật khẩu:"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/edtTaiKhoan"
-        app:layout_constraintTop_toBottomOf="@+id/edtTaiKhoan" />
+        app:layout_constraintStart_toStartOf="@+id/edtEmail"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
     <EditText
         android:id="@+id/edtMatKhau"
@@ -59,12 +59,23 @@
         app:layout_constraintTop_toBottomOf="@+id/txtMatKhau" />
 
     <Button
-        android:id="@+id/btnGui"
+        android:id="@+id/btnDangNhap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
-        android:text="Button"
+        android:layout_marginTop="68dp"
+        android:text="Đăng nhập"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtMatKhau" />
+
+    <TextView
+        android:id="@+id/tvQuenMatKhau"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="29dp"
+        android:text="Quên mật khẩu?"
+        app:layout_constraintStart_toStartOf="@+id/btnDangNhap"
         app:layout_constraintTop_toBottomOf="@+id/edtMatKhau" />
 </androidx.constraintlayout.widget.ConstraintLayout>
