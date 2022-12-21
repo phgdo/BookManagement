@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -52,15 +57,15 @@ public class quanlytaikhoan extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Users");
-
         lvAccs = findViewById(R.id.lvAccs);
         listU =new ArrayList<>();
         userApdater =new UserApdater(this, R.layout.user_item);
+        listU.clear();
+        userApdater.clear();
+        lvAccs.setAdapter(null);
         lvAccs.setAdapter(userApdater);
-
         //Lấy ra tất cả tài khoản nhân viên
         loadAccounts();
-
     }
 
     @Override
@@ -74,19 +79,16 @@ public class quanlytaikhoan extends AppCompatActivity {
             case R.id.menu:
                 showMenuDialog();
             case R.id.themtaikhoan:
-                sendUserToRegister();
+                SendUserToRegister();
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-    private void sendUserToRegister(){
-        Intent intent = new Intent(this, dangky.class);
-        startActivity(intent);
-    }
 
 
     private void loadAccounts() {
+        listU.clear();
         userApdater.clear();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -118,7 +120,6 @@ public class quanlytaikhoan extends AppCompatActivity {
                         }
                         UserProfile u = new UserProfile(id, hoten, Sdt, email, diachi,ngaysinh, imgAva);
                         userApdater.add(u);
-
                     }
                 }
 
@@ -130,7 +131,6 @@ public class quanlytaikhoan extends AppCompatActivity {
             }
         });
         userApdater.notifyDataSetChanged();
-
     }
 
     //Xoa san pham
@@ -142,7 +142,6 @@ public class quanlytaikhoan extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-//                FirebaseAuth.getInstance().deleteUser(userProfile.getId());
                 loadAccounts();
             }
         });
@@ -153,6 +152,74 @@ public class quanlytaikhoan extends AppCompatActivity {
             }
         });
         dialogDeleteUser.show();
+    }
+
+    public void showThemTaiKhoan(){
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dangky);
+        dialog.setCanceledOnTouchOutside(false);
+
+        EditText edtEmail = dialog.findViewById(R.id.edtEmail);
+        EditText edtMatKhau = dialog.findViewById(R.id.edtMatKhau);
+        EditText edtNhapLaiMatKhau = dialog.findViewById(R.id.edtNhapLaiMatKhau);
+        Button btnDangKy = dialog.findViewById(R.id.btnDangKy);
+
+        btnDangKy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = edtEmail.getText().toString().trim();
+                String matkhau = edtMatKhau.getText().toString().trim();
+                String nhaplaimatkhau = edtNhapLaiMatKhau.getText().toString().trim();
+                PerforAuth(email, matkhau, nhaplaimatkhau);
+                dialog.dismiss();
+            }
+        });
+    dialog.show();
+    }
+
+
+
+    private void PerforAuth(String email, String matKhau, String nhapLaiMatKhau){
+        String emailPattern = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+
+        if(!email.matches(emailPattern)){
+            Toast.makeText(this, "Email không hợp lệ.", Toast.LENGTH_SHORT).show();
+        }else if(matKhau.isEmpty() || matKhau.length()<6){
+            Toast.makeText(this, "Mật khẩu không được trống và phải lớn hơn 6 kí tự.", Toast.LENGTH_SHORT).show();
+        }else if(!matKhau.equals(nhapLaiMatKhau)){
+            Toast.makeText(this, "Mật khẩu không khớp.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            firebaseAuth.createUserWithEmailAndPassword(email, matKhau).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(quanlytaikhoan.this, "Đăng ký thành công.", Toast.LENGTH_SHORT).show();
+                        SetDataUserProfile(email, matKhau);
+                    }
+                    else{
+                        Toast.makeText(quanlytaikhoan.this, "Đăng ký thất bại. " + task.getException(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
+
+    }
+
+    public void SetDataUserProfile(String email, String password){
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    myRef.child(user.getUid()).child("isAdmin").setValue("0");
+                    myRef.child(user.getUid()).child("email").setValue(email);
+                }
+            }
+        });
+
     }
 
     public void showMenuDialog() {
@@ -256,6 +323,11 @@ public class quanlytaikhoan extends AppCompatActivity {
 
     public void SendUserToManagerUser(){
         Intent intent = new Intent(this, quanlytaikhoan.class);
+        startActivity(intent);
+    }
+
+    public void SendUserToRegister(){
+        Intent intent = new Intent(this, dangky.class);
         startActivity(intent);
     }
 }

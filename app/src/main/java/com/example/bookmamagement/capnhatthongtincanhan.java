@@ -193,20 +193,6 @@ public class capnhatthongtincanhan extends AppCompatActivity {
 
         if(imgUri == null || imgUri.equals("")){
             u.setFileNameAvatar(firebaseUser.getUid());
-//            myRef.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                     String fileNameAvatar = snapshot.child("fileNameAvatar").getValue().toString();
-//                     if(!fileNameAvatar.equals("") || !fileNameAvatar.equals(null)){
-//                         u.setFileNameAvatar(fileNameAvatar);
-//                     }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
         }
         else{
             String filename = getFileName(imgUri);
@@ -228,6 +214,33 @@ public class capnhatthongtincanhan extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void setLevel(){
+        myRef.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()){
+                    myRef.child(firebaseUser.getUid()).child("isAdmin").setValue("0").addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thành công.", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thất bại.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     public void SendUserToLoginActivity(){

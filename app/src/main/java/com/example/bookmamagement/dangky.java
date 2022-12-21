@@ -13,10 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
 
@@ -24,6 +27,9 @@ public class dangky extends AppCompatActivity {
     private String email;
     private String matKhau;
     private String nhapLaiMatKhau;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Users");
 
     protected FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     protected FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -69,6 +75,7 @@ public class dangky extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         Toast.makeText(dangky.this, "Đăng ký thành công.", Toast.LENGTH_SHORT).show();
+                        SetDataUserProfile(email, matKhau);
                         SendUserToLoginActivity();
                     }
                     else{
@@ -81,15 +88,23 @@ public class dangky extends AppCompatActivity {
 
     }
 
-    public void SetDataUserProfile(){
+    public void SetDataUserProfile(String email, String password){
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    myRef.child(user.getUid()).child("isAdmin").setValue("0");
+                    myRef.child(user.getUid()).child("email").setValue(email);
+                }
+            }
+        });
 
     }
 
     public void SendUserToLoginActivity(){
-        Intent intent = new Intent(dangky.this, dangnhap.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        Intent intent = new Intent(this, quanlytaikhoan.class);
         startActivity(intent);
     }
-
 
 }
