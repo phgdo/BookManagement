@@ -96,14 +96,27 @@ public class dangky extends AppCompatActivity {
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     myRef.child(user.getUid()).child("isAdmin").setValue("0");
                     myRef.child(user.getUid()).child("email").setValue(email);
+                    myRef.child(user.getUid()).child("diachi").setValue("");
+                    myRef.child(user.getUid()).child("fileNameAvatar").setValue("");
+                    myRef.child(user.getUid()).child("hoten").setValue("");
+                    myRef.child(user.getUid()).child("id").setValue(user.getUid());
+                    myRef.child(user.getUid()).child("ngaysinh").setValue("");
+                    myRef.child(user.getUid()).child("sdt").setValue("");
+//                    UserProfile userProfile = new UserProfile("", "", "", email, "", "", "");
+//                    myRef.child(user.getUid()).setValue(userProfile);
                 }
             }
         });
 
     }
 
-    public void SendUserToLoginActivity(){
+    public void SendUserToManagerUser(){
         Intent intent = new Intent(this, quanlytaikhoan.class);
+        startActivity(intent);
+    }
+    public void SendUserToLoginActivity(){
+        firebaseAuth.signOut();
+        Intent intent = new Intent(this, dangnhap.class);
         startActivity(intent);
     }
 

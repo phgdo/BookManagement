@@ -73,23 +73,33 @@ public class quanlytaikhoan extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.themtaikhoanmoi, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu:
-                showMenuDialog();
+        switch (item.getItemId()) {
+            case R.id.trangchu:
+                SendUserToMainActivity();
+                break;
+            case R.id.thongtintaikhoan:
+                SendUserToUpdateUserProfile();
+                break;
+            case R.id.quanly:
+                SendUserToManagerUser();
+                break;
+            case R.id.dangxuat:
+                logout();
+                break;
             case R.id.themtaikhoan:
                 SendUserToRegister();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
     private void loadAccounts() {
         listU.clear();
-        userApdater.clear();
+//        userApdater.clear();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -102,19 +112,19 @@ public class quanlytaikhoan extends AppCompatActivity {
                                 hoten = ds2.getValue().toString();
                             }
                             if(ds2.getKey().toString().equals("email")){
-                                 email = ds2.getValue().toString();
+                                email = ds2.getValue().toString();
                             }
                             if(ds2.getKey().toString().equals("sdt")){
-                                 Sdt = ds2.getValue().toString();
+                                Sdt = ds2.getValue().toString();
                             }
                             if(ds2.getKey().toString().equals("ngaysinh")){
-                                 ngaysinh = ds2.getValue().toString();
+                                ngaysinh = ds2.getValue().toString();
                             }
                             if(ds2.getKey().toString().equals("diachi")){
-                                 diachi = ds2.getValue().toString();
+                                diachi = ds2.getValue().toString();
                             }
                             if(ds2.getKey().toString().equals("imgAva")){
-                                 imgAva = ds2.getValue().toString();
+                                imgAva = ds2.getValue().toString();
                             }
 
                         }
@@ -132,6 +142,53 @@ public class quanlytaikhoan extends AppCompatActivity {
         });
         userApdater.notifyDataSetChanged();
     }
+
+
+//    private void loadAccounts() {
+//        listU.clear();
+//        userApdater.clear();
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.exists()){
+//                    for(DataSnapshot ds: snapshot.getChildren()){
+//                        String id = ds.getKey().toString();
+//                        String hoten = "", email= "", Sdt= "", ngaysinh= "", diachi= "", imgAva= "";
+//                        for (DataSnapshot ds2: ds.getChildren()){
+//                            if(ds2.getKey().toString().equals("hoten")){
+//                                hoten = ds2.getValue().toString();
+//                            }
+//                            if(ds2.getKey().toString().equals("email")){
+//                                 email = ds2.getValue().toString();
+//                            }
+//                            if(ds2.getKey().toString().equals("sdt")){
+//                                 Sdt = ds2.getValue().toString();
+//                            }
+//                            if(ds2.getKey().toString().equals("ngaysinh")){
+//                                 ngaysinh = ds2.getValue().toString();
+//                            }
+//                            if(ds2.getKey().toString().equals("diachi")){
+//                                 diachi = ds2.getValue().toString();
+//                            }
+//                            if(ds2.getKey().toString().equals("imgAva")){
+//                                 imgAva = ds2.getValue().toString();
+//                            }
+//
+//                        }
+//                        UserProfile u = new UserProfile(id, hoten, Sdt, email, diachi,ngaysinh, imgAva);
+//                        userApdater.add(u);
+//                    }
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//        userApdater.notifyDataSetChanged();
+//    }
 
     //Xoa san pham
     public void showXoaAccountDialog(UserProfile userProfile){
@@ -329,5 +386,11 @@ public class quanlytaikhoan extends AppCompatActivity {
     public void SendUserToRegister(){
         Intent intent = new Intent(this, dangky.class);
         startActivity(intent);
+    }
+
+    public void logout(){
+        firebaseAuth.signOut();
+        Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+        SendUserToLoginActivity();
     }
 }

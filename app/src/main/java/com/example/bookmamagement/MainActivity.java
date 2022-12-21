@@ -16,26 +16,34 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     protected FirebaseAuth firebaseAuth;
     protected FirebaseUser firebaseUser;
     protected DatabaseReference databaseReference;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Users");
+
         firebaseAuth = FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() == null){
+        firebaseUser = firebaseAuth.getCurrentUser();
+        databaseReference =  FirebaseDatabase.getInstance().getReference();
+        if(firebaseUser == null){
             finish();
             SendUserToLoginActivity();
         }
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        databaseReference =  FirebaseDatabase.getInstance().getReference();
 
 
     }
@@ -46,12 +54,40 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menu:
-                showMenuDialog();
+        switch (item.getItemId()) {
+            case R.id.trangchu:
+                SendUserToMainActivity();
+                break;
+            case R.id.thongtintaikhoan:
+                SendUserToUpdateUserProfile();
+                break;
+            case R.id.quanly:
+                myRef.child(firebaseUser.getUid()).child("isAdmin").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.getValue().toString().equals("1")){
+                            SendUserToManagerUser();
+                        }
+                        else{
+                            Toast.makeText(MainActivity.this, "Bạn không phải ADMIN.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                break;
+            case R.id.dangxuat:
+                logout();
+                break;
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -160,5 +196,11 @@ public class MainActivity extends AppCompatActivity {
     public void SendUserToManagerUser(){
         Intent intent = new Intent(this, quanlytaikhoan.class);
         startActivity(intent);
+    }
+
+    public void logout(){
+        firebaseAuth.signOut();
+        Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+        SendUserToLoginActivity();
     }
 }
