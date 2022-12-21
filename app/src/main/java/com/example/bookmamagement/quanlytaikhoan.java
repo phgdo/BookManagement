@@ -99,7 +99,7 @@ public class quanlytaikhoan extends AppCompatActivity {
 
     private void loadAccounts() {
         listU.clear();
-//        userApdater.clear();
+        userApdater.clear();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -144,53 +144,7 @@ public class quanlytaikhoan extends AppCompatActivity {
     }
 
 
-//    private void loadAccounts() {
-//        listU.clear();
-//        userApdater.clear();
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if(snapshot.exists()){
-//                    for(DataSnapshot ds: snapshot.getChildren()){
-//                        String id = ds.getKey().toString();
-//                        String hoten = "", email= "", Sdt= "", ngaysinh= "", diachi= "", imgAva= "";
-//                        for (DataSnapshot ds2: ds.getChildren()){
-//                            if(ds2.getKey().toString().equals("hoten")){
-//                                hoten = ds2.getValue().toString();
-//                            }
-//                            if(ds2.getKey().toString().equals("email")){
-//                                 email = ds2.getValue().toString();
-//                            }
-//                            if(ds2.getKey().toString().equals("sdt")){
-//                                 Sdt = ds2.getValue().toString();
-//                            }
-//                            if(ds2.getKey().toString().equals("ngaysinh")){
-//                                 ngaysinh = ds2.getValue().toString();
-//                            }
-//                            if(ds2.getKey().toString().equals("diachi")){
-//                                 diachi = ds2.getValue().toString();
-//                            }
-//                            if(ds2.getKey().toString().equals("imgAva")){
-//                                 imgAva = ds2.getValue().toString();
-//                            }
-//
-//                        }
-//                        UserProfile u = new UserProfile(id, hoten, Sdt, email, diachi,ngaysinh, imgAva);
-//                        userApdater.add(u);
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        userApdater.notifyDataSetChanged();
-//    }
-
-    //Xoa san pham
+    //Xoa tai khoan
     public void showXoaAccountDialog(UserProfile userProfile){
         AlertDialog.Builder dialogDeleteUser = new AlertDialog.Builder(this);
         dialogDeleteUser.setMessage("Ban co muon xoa " + userProfile.toString() + "?");
@@ -199,6 +153,34 @@ public class quanlytaikhoan extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
+                loadAccounts();
+            }
+        });
+        dialogDeleteUser.setNegativeButton("Khong", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialogDeleteUser.show();
+    }
+
+    //Cấp quyền admin
+    public void showCapQuyenAdmin(UserProfile userProfile){
+        AlertDialog.Builder dialogDeleteUser = new AlertDialog.Builder(this);
+        dialogDeleteUser.setMessage("Bạn có muốn cấp quyền ADMIN cho tài khoản " + userProfile.getEmail().toString() + "?");
+        dialogDeleteUser.setCancelable(false);
+        dialogDeleteUser.setPositiveButton("Co", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                myRef.child(userProfile.getId()).child("isAdmin").setValue("1").addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(quanlytaikhoan.this, "Cấp quyền thành công.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 loadAccounts();
             }
         });

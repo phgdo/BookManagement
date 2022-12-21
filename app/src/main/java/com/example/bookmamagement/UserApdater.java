@@ -41,6 +41,7 @@ public class UserApdater extends ArrayAdapter<UserProfile> {
 
         ImageView imgUser = customView.findViewById(R.id.imgUser);
         ImageView imgDelete = customView.findViewById(R.id.imgDelete);
+        ImageView imgEdit = customView.findViewById(R.id.imgEdit);
         TextView tvEmail = customView.findViewById(R.id.tvEmail);
         TextView tvHoTen = customView.findViewById(R.id.tvHoTen);
         TextView tvSDT = customView.findViewById(R.id.tvSDT);
@@ -78,6 +79,13 @@ public class UserApdater extends ArrayAdapter<UserProfile> {
             public void onClick(View view) {
                 Toast.makeText(context, "Xóa tài khoản " + getItem(position).getEmail(), Toast.LENGTH_SHORT).show();
                 ((quanlytaikhoan) context).showXoaAccountDialog(userProfile);
+            }
+        });
+
+        imgEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((quanlytaikhoan) context).showCapQuyenAdmin(userProfile);
             }
         });
         return customView;
