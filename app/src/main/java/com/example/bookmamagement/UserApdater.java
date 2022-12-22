@@ -39,13 +39,12 @@ public class UserApdater extends ArrayAdapter<UserProfile> {
         LayoutInflater inflater = this.context.getLayoutInflater();
         View customView = inflater.inflate(this.resource, null);
 
-        ImageView imgUser = customView.findViewById(R.id.imgUser);
-        ImageView imgDelete = customView.findViewById(R.id.imgDelete);
         ImageView imgEdit = customView.findViewById(R.id.imgEdit);
         TextView tvEmail = customView.findViewById(R.id.tvEmail);
         TextView tvHoTen = customView.findViewById(R.id.tvHoTen);
         TextView tvSDT = customView.findViewById(R.id.tvSDT);
         TextView tvNgaySinh = customView.findViewById(R.id.tvNgaySinh);
+        TextView tvDiaChi = customView.findViewById(R.id.tvDiaChi);
 
         UserProfile userProfile = getItem(position);
 
@@ -53,34 +52,35 @@ public class UserApdater extends ArrayAdapter<UserProfile> {
         tvHoTen.setText(userProfile.getHoten());
         tvSDT.setText(userProfile.getSdt());
         tvNgaySinh.setText(userProfile.getNgaysinh());
+        tvDiaChi.setText(userProfile.getDiachi());
 
-        storageReference2 = FirebaseStorage.getInstance().getReference().child("FileAva/" + userProfile.getFileNameAvatar());
-        try {
-            final File localFile = File.createTempFile("temp", "png");
-            storageReference2.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    imgUser.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-//                                Toast.makeText(capnhatthongtincanhan.this, "Error: " + e, Toast.LENGTH_SHORT).show();
-
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        imgDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "Xóa tài khoản " + getItem(position).getEmail(), Toast.LENGTH_SHORT).show();
-                ((quanlytaikhoan) context).showXoaAccountDialog(userProfile);
-            }
-        });
+//        storageReference2 = FirebaseStorage.getInstance().getReference().child("FileAva/" + userProfile.getFileNameAvatar());
+//        try {
+//            final File localFile = File.createTempFile("temp", "png");
+//            storageReference2.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+//                    imgUser.setImageBitmap(bitmap);
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+////                                Toast.makeText(capnhatthongtincanhan.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        imgDelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(context, "Xóa tài khoản " + getItem(position).getEmail(), Toast.LENGTH_SHORT).show();
+//                ((quanlytaikhoan) context).showXoaAccountDialog(userProfile);
+//            }
+//        });
 
         imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override

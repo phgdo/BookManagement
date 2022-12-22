@@ -28,6 +28,8 @@
         <activity android:name=".quenmatkhau"/>
         <activity android:name=".capnhatthongtincanhan"/>
         <activity android:name=".quanlytaikhoan"/>
+        <activity android:name=".doimatkhau"/>
+        <activity android:name=".thongtincanhan"/>
     </application>
 
 </manifest>

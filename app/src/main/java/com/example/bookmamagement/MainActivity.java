@@ -43,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
             SendUserToLoginActivity();
         }
-
-
-
     }
 
     @Override
@@ -53,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -83,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.dangxuat:
+                finish();
                 logout();
                 break;
         }
@@ -92,94 +89,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void showMenuDialog() {
-        Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_menu);
-        dialog.setCanceledOnTouchOutside(false);
-
-        //Trang chu
-        ImageView imgTrangChu = dialog.findViewById(R.id.imgTrangChu);
-        TextView tvTrangChu = dialog.findViewById(R.id.tvTrangChu);
-
-        //Dang xuat
-        ImageView imgLogout = dialog.findViewById(R.id.imgLogout);
-        TextView tvDangXuat = dialog.findViewById(R.id.tvDangXuat);
-
-        //Cap nhat thong tin
-        ImageView imgCapNhatThongTin = dialog.findViewById(R.id.imgCapNhatThongTin);
-        TextView tvCapNhatThongTin = dialog.findViewById(R.id.tvCapNhatThongTin);
-
-
-        //Quan ly tai khoan
-        ImageView imgQuanLyTaiKhoan = dialog.findViewById(R.id.imgQuanLyTaiKhoan);
-        TextView tvQuanLyTaiKhoan = dialog.findViewById(R.id.tvQuanLyTaiKhoan);
-
-        tvDangXuat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseAuth.signOut();
-                Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-                SendUserToLoginActivity();
-
-            }
-        });
-        imgLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseAuth.signOut();
-                Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-                SendUserToLoginActivity();
-            }
-        });
-
-        tvTrangChu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SendUserToMainActivity();
-            }
-        });
-        imgTrangChu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SendUserToMainActivity();
-            }
-        });
-
-        tvCapNhatThongTin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SendUserToUpdateUserProfile();
-            }
-        });
-        imgCapNhatThongTin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SendUserToUpdateUserProfile();
-            }
-        });
-
-        tvQuanLyTaiKhoan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SendUserToManagerUser();
-            }
-        });
-        imgQuanLyTaiKhoan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SendUserToManagerUser();
-            }
-        });
-
-
-        dialog.show();
-    }
-
     public void SendUserToLoginActivity(){
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, dangnhap.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
@@ -189,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SendUserToUpdateUserProfile(){
-        Intent intent = new Intent(this, capnhatthongtincanhan.class);
+        Intent intent = new Intent(this, thongtincanhan.class);
         startActivity(intent);
     }
 
@@ -203,4 +115,92 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
         SendUserToLoginActivity();
     }
+
+
+//    public void showMenuDialog() {
+//        Dialog dialog = new Dialog(this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setContentView(R.layout.dialog_menu);
+//        dialog.setCanceledOnTouchOutside(false);
+//
+//        //Trang chu
+//        ImageView imgTrangChu = dialog.findViewById(R.id.imgTrangChu);
+//        TextView tvTrangChu = dialog.findViewById(R.id.tvTrangChu);
+//
+//        //Dang xuat
+//        ImageView imgLogout = dialog.findViewById(R.id.imgLogout);
+//        TextView tvDangXuat = dialog.findViewById(R.id.tvDangXuat);
+//
+//        //Cap nhat thong tin
+//        ImageView imgCapNhatThongTin = dialog.findViewById(R.id.imgCapNhatThongTin);
+//        TextView tvCapNhatThongTin = dialog.findViewById(R.id.tvCapNhatThongTin);
+//
+//
+//        //Quan ly tai khoan
+//        ImageView imgQuanLyTaiKhoan = dialog.findViewById(R.id.imgQuanLyTaiKhoan);
+//        TextView tvQuanLyTaiKhoan = dialog.findViewById(R.id.tvQuanLyTaiKhoan);
+//
+//        tvDangXuat.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                firebaseAuth.signOut();
+//                Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+//                SendUserToLoginActivity();
+//
+//            }
+//        });
+//        imgLogout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                firebaseAuth.signOut();
+//                Toast.makeText(MainActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+//                SendUserToLoginActivity();
+//            }
+//        });
+//
+//        tvTrangChu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SendUserToMainActivity();
+//            }
+//        });
+//        imgTrangChu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SendUserToMainActivity();
+//            }
+//        });
+//
+//        tvCapNhatThongTin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SendUserToUpdateUserProfile();
+//            }
+//        });
+//        imgCapNhatThongTin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SendUserToUpdateUserProfile();
+//            }
+//        });
+//
+//        tvQuanLyTaiKhoan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SendUserToManagerUser();
+//            }
+//        });
+//        imgQuanLyTaiKhoan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SendUserToManagerUser();
+//            }
+//        });
+//
+//
+//        dialog.show();
+//    }
 }
+
+
+

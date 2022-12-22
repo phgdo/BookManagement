@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -183,6 +185,11 @@ public class capnhatthongtincanhan extends AppCompatActivity {
         String ngaysinh = edtNgaySinh.getText().toString().trim();
         String diachi = edtDiaChi.getText().toString().trim();
 //        String email = edtEmail.getText().toString().trim();
+        myRef.child(firebaseUser.getUid()).child("diachi").setValue(diachi);
+        myRef.child(firebaseUser.getUid()).child("hoten").setValue(hoten);
+        myRef.child(firebaseUser.getUid()).child("sdt").setValue(sdt);
+        myRef.child(firebaseUser.getUid()).child("ngaysinh").setValue(ngaysinh);
+        myRef.child(firebaseUser.getUid()).child("email").setValue(diachi);
         u.setDiachi(diachi);
 //        u.setEmail(email);
         u.setHoten(hoten);
@@ -192,28 +199,46 @@ public class capnhatthongtincanhan extends AppCompatActivity {
         u.setEmail(firebaseUser.getEmail().toString());
 
         if(imgUri == null || imgUri.equals("")){
+            myRef.child(firebaseUser.getUid()).child("fileNameAvatar").setValue(firebaseUser.getUid());
             u.setFileNameAvatar(firebaseUser.getUid());
         }
         else{
             String filename = getFileName(imgUri);
             ref = storageReference.child(firebaseUser.getUid());
             ref.putFile(imgUri);
-            u.setFileNameAvatar(firebaseUser.getUid());
+            myRef.child(firebaseUser.getUid()).child("fileNameAvatar").setValue(firebaseUser.getUid());
         }
+        Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thành công.", Toast.LENGTH_SHORT).show();
 
 
-
-        myRef.child(firebaseUser.getUid()).setValue(u).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thành công.", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thất bại.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        myRef.child(firebaseUser.getUid()).setValue(u).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if(task.isSuccessful()){
+//                    Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thành công.", Toast.LENGTH_SHORT).show();
+//                }
+//                else{
+//                    Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thất bại.", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//        myRef.child(firebaseUser.getUid()).child("isAdmin").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.exists()){
+//                    myRef.child(firebaseUser.getUid()).child("isAdmin").setValue(snapshot);
+//                }
+//                if(!snapshot.exists()){
+//                    myRef.child(firebaseUser.getUid()).child("isAdmin").setValue("0");
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 
     public void setLevel(){
@@ -243,10 +268,6 @@ public class capnhatthongtincanhan extends AppCompatActivity {
 
     }
 
-    public void SendUserToLoginActivity(){
-        Intent intent = new Intent(this, dangnhap.class);
-        startActivity(intent);
-    }
 
     public void xuLyLayAnh() {
         Intent intent = new Intent();
@@ -299,6 +320,77 @@ public class capnhatthongtincanhan extends AppCompatActivity {
             }
         }
         return result;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.trangchu:
+                SendUserToMainActivity();
+                break;
+            case R.id.thongtintaikhoan:
+                SendUserToUpdateUserProfile();
+                break;
+            case R.id.quanly:
+                myRef.child(firebaseUser.getUid()).child("isAdmin").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.getValue().toString().equals("1")){
+                            SendUserToManagerUser();
+                        }
+                        else{
+                            Toast.makeText(capnhatthongtincanhan.this, "Bạn không phải ADMIN.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                break;
+            case R.id.dangxuat:
+                finish();
+                logout();
+                break;
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public void SendUserToLoginActivity(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, dangnhap.class);
+        startActivity(intent);
+    }
+
+    public void SendUserToMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void SendUserToUpdateUserProfile(){
+        Intent intent = new Intent(this, thongtincanhan.class);
+        startActivity(intent);
+    }
+
+    public void SendUserToManagerUser(){
+        Intent intent = new Intent(this, quanlytaikhoan.class);
+        startActivity(intent);
+    }
+
+    public void logout(){
+        firebaseAuth.signOut();
+        Toast.makeText(capnhatthongtincanhan.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+        SendUserToLoginActivity();
     }
 
 

@@ -68,16 +68,19 @@ public class quanlytaikhoan extends AppCompatActivity {
         loadAccounts();
     }
 
+    //Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.themtaikhoanmoi, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.themtaikhoan:
+                SendUserToRegister();
+                break;
             case R.id.trangchu:
                 SendUserToMainActivity();
                 break;
@@ -85,25 +88,68 @@ public class quanlytaikhoan extends AppCompatActivity {
                 SendUserToUpdateUserProfile();
                 break;
             case R.id.quanly:
-                SendUserToManagerUser();
+                myRef.child(firebaseUser.getUid()).child("isAdmin").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.getValue().toString().equals("1")){
+                            SendUserToManagerUser();
+                        }
+                        else{
+                            Toast.makeText(quanlytaikhoan.this, "Bạn không phải ADMIN.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 break;
             case R.id.dangxuat:
                 logout();
                 break;
-            case R.id.themtaikhoan:
-                SendUserToRegister();
-                break;
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 
+
+    public void SendUserToLoginActivity(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, dangnhap.class);
+        startActivity(intent);
+    }
+
+    public void SendUserToMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void SendUserToUpdateUserProfile(){
+        Intent intent = new Intent(this, thongtincanhan.class);
+        startActivity(intent);
+    }
+
+    public void SendUserToManagerUser(){
+        Intent intent = new Intent(this, quanlytaikhoan.class);
+        startActivity(intent);
+    }
+
+    public void logout(){
+        firebaseAuth.signOut();
+        Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+        SendUserToLoginActivity();
+    }
+
     private void loadAccounts() {
-        listU.clear();
-        userApdater.clear();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
+                    listU.clear();
+                    userApdater.clear();
+
                     for(DataSnapshot ds: snapshot.getChildren()){
                         String id = ds.getKey().toString();
                         String hoten = "", email= "", Sdt= "", ngaysinh= "", diachi= "", imgAva= "";
@@ -344,35 +390,11 @@ public class quanlytaikhoan extends AppCompatActivity {
 
         dialog.show();
     }
-    public void SendUserToLoginActivity(){
-        Intent intent = new Intent(this, dangnhap.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
 
-    public void SendUserToMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void SendUserToUpdateUserProfile(){
-        Intent intent = new Intent(this, capnhatthongtincanhan.class);
-        startActivity(intent);
-    }
-
-    public void SendUserToManagerUser(){
-        Intent intent = new Intent(this, quanlytaikhoan.class);
-        startActivity(intent);
-    }
 
     public void SendUserToRegister(){
         Intent intent = new Intent(this, dangky.class);
         startActivity(intent);
     }
 
-    public void logout(){
-        firebaseAuth.signOut();
-        Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-        SendUserToLoginActivity();
-    }
 }

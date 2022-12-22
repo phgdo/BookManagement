@@ -109,23 +109,6 @@ public class dangnhap extends AppCompatActivity {
         }
     }
 
-    public void SetDataUserProfile(){
-        myRef.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.exists()){
-                    UserProfile u = new UserProfile(firebaseUser.getUid(), "", "", "", "", "", "");
-                    myRef.setValue(u);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
 
     public void SendUserToMainActivity(){
         Intent intent = new Intent(dangnhap.this, MainActivity.class);
