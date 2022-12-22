@@ -30,6 +30,7 @@
         <activity android:name=".quanlytaikhoan"/>
         <activity android:name=".doimatkhau"/>
         <activity android:name=".thongtincanhan"/>
+        <activity android:name=".MainActivityPhieuMuon"/>
     </application>
 
 </manifest>

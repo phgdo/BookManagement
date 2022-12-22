@@ -78,6 +78,9 @@ public class quanlytaikhoan extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case  R.id.QLPM:
+                SendUserToQuanLyPhieuMuon();
+                break;
             case R.id.themtaikhoan:
                 SendUserToRegister();
                 break;
@@ -114,6 +117,10 @@ public class quanlytaikhoan extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void SendUserToQuanLyPhieuMuon(){
+        Intent intent = new Intent(this, MainActivityPhieuMuon.class);
+        startActivity(intent);
+    }
 
     public void SendUserToLoginActivity(){
         FirebaseAuth.getInstance().signOut();

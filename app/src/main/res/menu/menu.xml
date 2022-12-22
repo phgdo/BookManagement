@@ -8,6 +8,9 @@
         app:showAsAction="">
     </item>
     <item
+        android:id="@+id/QLPM"
+        android:title="Quản lý phiếu mượn" />
+    <item
         android:title="Quản lý nhân viên"
         android:id="@+id/quanly"
         app:showAsAction="">

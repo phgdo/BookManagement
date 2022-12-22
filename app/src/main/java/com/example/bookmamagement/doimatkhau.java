@@ -129,7 +129,6 @@ public class doimatkhau extends AppCompatActivity {
 
 
     public void SendUserToLoginActivity(){
-        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, dangnhap.class);
         startActivity(intent);
     }
