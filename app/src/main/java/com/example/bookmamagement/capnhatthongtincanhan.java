@@ -189,14 +189,14 @@ public class capnhatthongtincanhan extends AppCompatActivity {
         myRef.child(firebaseUser.getUid()).child("hoten").setValue(hoten);
         myRef.child(firebaseUser.getUid()).child("sdt").setValue(sdt);
         myRef.child(firebaseUser.getUid()).child("ngaysinh").setValue(ngaysinh);
-        myRef.child(firebaseUser.getUid()).child("email").setValue(diachi);
-        u.setDiachi(diachi);
-//        u.setEmail(email);
-        u.setHoten(hoten);
-        u.setNgaysinh(ngaysinh);
-//        u.setUri(imgUri);
-        u.setSdt(sdt);
-        u.setEmail(firebaseUser.getEmail().toString());
+        myRef.child(firebaseUser.getUid()).child("email").setValue(firebaseUser.getEmail());
+//        u.setDiachi(diachi);
+////        u.setEmail(email);
+//        u.setHoten(hoten);
+//        u.setNgaysinh(ngaysinh);
+////        u.setUri(imgUri);
+//        u.setSdt(sdt);
+//        u.setEmail(firebaseUser.getEmail().toString());
 
         if(imgUri == null || imgUri.equals("")){
             myRef.child(firebaseUser.getUid()).child("fileNameAvatar").setValue(firebaseUser.getUid());
@@ -209,7 +209,7 @@ public class capnhatthongtincanhan extends AppCompatActivity {
             myRef.child(firebaseUser.getUid()).child("fileNameAvatar").setValue(firebaseUser.getUid());
         }
         Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thành công.", Toast.LENGTH_SHORT).show();
-
+        SendUserToUpdateUserProfile();
 
 //        myRef.child(firebaseUser.getUid()).setValue(u).addOnCompleteListener(new OnCompleteListener<Void>() {
 //            @Override
