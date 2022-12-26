@@ -241,32 +241,32 @@ public class capnhatthongtincanhan extends AppCompatActivity {
 //        });
     }
 
-    public void setLevel(){
-        myRef.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.exists()){
-                    myRef.child(firebaseUser.getUid()).child("isAdmin").setValue("0").addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thành công.", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thất bại.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
+//    public void setLevel(){
+//        myRef.child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(!snapshot.exists()){
+//                    myRef.child(firebaseUser.getUid()).child("isAdmin").setValue("0").addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            if(task.isSuccessful()){
+//                                Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thành công.", Toast.LENGTH_SHORT).show();
+//                            }
+//                            else{
+//                                Toast.makeText(capnhatthongtincanhan.this, "Cập nhật thông tin thất bại.", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//    }
 
 
     public void xuLyLayAnh() {
@@ -334,6 +334,9 @@ public class capnhatthongtincanhan extends AppCompatActivity {
             case R.id.trangchu:
                 SendUserToMainActivity();
                 break;
+            case R.id.QLPM:
+                SendUserToQuanLyPhieuMuon();
+                break;
             case R.id.thongtintaikhoan:
                 SendUserToUpdateUserProfile();
                 break;
@@ -365,6 +368,10 @@ public class capnhatthongtincanhan extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public  void SendUserToQuanLyPhieuMuon(){
+        Intent intent = new Intent(this, MainActivityPhieuMuon.class);
+        startActivity(intent);
+    }
 
     public void SendUserToLoginActivity(){
         FirebaseAuth.getInstance().signOut();

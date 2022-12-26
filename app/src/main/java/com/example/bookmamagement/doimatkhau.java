@@ -96,6 +96,9 @@ public class doimatkhau extends AppCompatActivity {
             case R.id.trangchu:
                 SendUserToMainActivity();
                 break;
+            case R.id.QLPM:
+                SendUserToQuanLyPhieuMuon();
+                break;
             case R.id.thongtintaikhoan:
                 SendUserToUpdateUserProfile();
                 break;
@@ -127,6 +130,10 @@ public class doimatkhau extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public  void SendUserToQuanLyPhieuMuon(){
+        Intent intent = new Intent(this, MainActivityPhieuMuon.class);
+        startActivity(intent);
+    }
 
     public void SendUserToLoginActivity(){
         Intent intent = new Intent(this, dangnhap.class);
