@@ -294,24 +294,13 @@ public class MainActivityPhieuMuon extends AppCompatActivity{
         //
     private void LoadData() {
         listPM.clear();
-        Query query = mData.child("phieuMuon").orderByChild("id");
-        query.addChildEventListener(new ChildEventListener() {
+        mData.child("phieuMuon").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 int flag = 0;
                 phieuMuon p = snapshot.getValue(phieuMuon.class);
-
-                for (int i=0; i<listPM.size(); i++){
-                    if (p.getId() == listPM.get(i).getId()){
-                        flag = 1;
-                        break;
-                    }
-                }
-
-                if (flag == 0){
                     listPM.add(p);
                     adapter.notifyDataSetChanged();
-                }
             }
 
             @Override
@@ -362,7 +351,8 @@ public class MainActivityPhieuMuon extends AppCompatActivity{
                 showQLS();
                 break;
             case R.id.allPhieuDuyet:
-                LoadData();
+                Intent intent = new Intent(this, MainActivityPhieuMuon.class);
+                startActivity(intent);
                 break;
             case R.id.phieuDaDuyet:
                 showPhieuDaDuyet();
@@ -375,13 +365,14 @@ public class MainActivityPhieuMuon extends AppCompatActivity{
 
     private void showPhieuChuaDuyet() {
         listPM.clear();
-        Query query = mData.child("phieuMuon").orderByChild("trangThai").equalTo(0);
-        query.addChildEventListener(new ChildEventListener() {
+        mData.child("phieuMuon").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 phieuMuon p = snapshot.getValue(phieuMuon.class);
-                    listPM.add(p);
-                    adapter.notifyDataSetChanged();
+                    if (p.getTrangThai() == 0){
+                        listPM.add(p);
+                        adapter.notifyDataSetChanged();
+                    }
             }
 
             @Override
@@ -408,13 +399,14 @@ public class MainActivityPhieuMuon extends AppCompatActivity{
 
     private void showPhieuDaDuyet() {
         listPM.clear();
-        Query query = mData.child("phieuMuon").orderByChild("trangThai").equalTo(1);
-        query.addChildEventListener(new ChildEventListener() {
+        mData.child("phieuMuon").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 phieuMuon p = snapshot.getValue(phieuMuon.class);
+                if (p.getTrangThai() == 1){
                     listPM.add(p);
                     adapter.notifyDataSetChanged();
+                }
             }
 
             @Override

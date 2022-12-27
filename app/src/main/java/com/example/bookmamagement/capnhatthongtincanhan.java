@@ -200,7 +200,7 @@ public class capnhatthongtincanhan extends AppCompatActivity {
 
         if(imgUri == null || imgUri.equals("")){
             myRef.child(firebaseUser.getUid()).child("fileNameAvatar").setValue(firebaseUser.getUid());
-            u.setFileNameAvatar(firebaseUser.getUid());
+//            u.setFileNameAvatar(firebaseUser.getUid());
         }
         else{
             String filename = getFileName(imgUri);
